@@ -1,0 +1,49 @@
+#CALCULANDO OS DIVISORES DE ICMS E PIS/COFINS
+
+# TRIBUTOS
+al_icms = 17
+al_pis = 0.92
+al_cofins = 4.5
+
+#TARIFAS
+tarifa = 1.00
+
+#CONSUMOS
+qtd = 100
+
+
+def tributos (tarifa, qtd, al_pis, al_cofins, al_icms):
+    
+    valor = float(tarifa * qtd)
+    dv_pis_cofins = float(1-((al_pis + al_cofins)/100))
+    bc_pis_cofins = float(valor / dv_pis_cofins)
+    vl_pis = float(bc_pis_cofins * (al_pis/100))
+    vl_cofins = float(bc_pis_cofins * (al_cofins/100))
+    dv_icms = float(1-(al_icms / 100))
+    bc_icms = float(valor / dv_pis_cofins / dv_icms)
+    vl_icms = float(bc_icms * (al_icms / 100))
+    preco_com_tributos = float(valor + vl_pis + vl_cofins + vl_icms)
+    vl_unit_com_tributos = float(preco_com_tributos / qtd)
+
+    print('----------------------------------------------------------------\n')
+    print(f'Tarifa( TUSD + TE + BANDEIRA):      {tarifa}')
+    print(f'Valor do produto:                   {valor}')
+    print(f'Quantidade:                         {qtd}\n')
+
+
+    print(f'Divisor de PIS/COFINS               {dv_pis_cofins}')
+    print(f'Valor da BC PIS/COFINS:             {bc_pis_cofins}' )
+    print(f'Alíquota de PIS:                    {al_pis}')
+    print(f'Valor de PIS:                       {vl_pis}\n')
+
+    print(f'Alíquota de COFINS:                 {al_cofins}')
+    print(f'Valor de COFINS:                    {vl_cofins}\n')
+
+    print(f'Valor da BC de ICMS:                {bc_icms}')
+    print(f'Valor de ICMS:                      {vl_icms}\n')
+
+    print(f'Preço com tributos:                 {preco_com_tributos}')
+    print(f'Valor unitário do produto:          {vl_unit_com_tributos}\n')
+    print('----------------------------------------------------------------')
+
+tributos(tarifa,qtd,al_pis, al_cofins, al_icms)
