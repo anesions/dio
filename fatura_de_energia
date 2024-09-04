@@ -1,0 +1,74 @@
+# *******************************  FATURAMENTO  *******************************
+
+# BIBLIOTECAS
+import datetime as dt # Utilizada para calcular a diferença entre datas
+
+# FUNÇÃO DE CALCULO DE DIFERENÇA DE DATAS
+
+def calc_dias(dt_ini, dt_fim):
+    dt_inicial = dt.datetime.strptime(dt_ini, "%Y-%m-%d")
+    dt_final = dt.datetime.strptime(dt_fim, "%Y-%m-%d")
+    dias = dt_final - dt_inicial
+    print(f'Data leitura anterior: {dt_ini} Data leitura atual: {dt_fim} = {dias}')
+
+#PERÍODO
+
+dt_lt_ant = "2024-07-15"
+dt_lt_atual = "2024-08-14"
+calc_dias(dt_ini=dt_lt_ant, dt_fim=dt_lt_atual)
+
+# TRIBUTOS
+al_icms = 17
+al_pis = 1
+al_cofins = 4.59
+
+#TARIFAS
+bandeira = 0
+tusd = 0
+te = 0.6747700
+tarifa = tusd + te + bandeira
+
+#CONSUMOS
+qtd = 50
+
+def tributos (tarifa, qtd, al_pis, al_cofins, al_icms):
+    
+    valor = round(float(tarifa * qtd),2)
+    dv_pis_cofins = round(float(1-((al_pis + al_cofins)/100)),4)
+    bc_pis_cofins = round(float(valor / dv_pis_cofins),2)
+    vl_pis = round(float(bc_pis_cofins * (al_pis/100)),2)
+    vl_cofins = round(float(bc_pis_cofins * (al_cofins/100)),2)
+    dv_icms = round(float(1-(al_icms / 100)),4)
+    bc_icms = round(float(valor / dv_pis_cofins / dv_icms),2)
+    vl_icms = round(float(bc_icms * (al_icms / 100)),2)
+    preco_com_tributos = round(float(valor + vl_pis + vl_cofins + vl_icms),2)
+    vl_unit_com_tributos = round(float(preco_com_tributos / qtd),8)
+    
+
+
+    print('------------------------------------------------------------------------------\n')
+    print(f'Tarifa  (TUSD + TE + BANDEIRA):     {tarifa}')
+    print(f'Valor do produto:                   {valor}')
+    print(f'Quantidade:                         {qtd}\n')
+
+
+    print(f'Divisor de PIS/COFINS               {dv_pis_cofins}\n')
+
+    print(f'Valor da BC PIS/COFINS:             {bc_pis_cofins}' )
+    print(f'Alíquota de PIS:                    {al_pis}')
+    print(f'Valor de PIS:                       {vl_pis}\n')
+
+    print(f'Alíquota de COFINS:                 {al_cofins}')
+    print(f'Valor de COFINS:                    {vl_cofins}\n')
+
+    print(f'divisor de ICMS:                    {dv_icms}')
+    print(f'Valor da BC de ICMS:                {bc_icms}')
+    print(f'Valor de ICMS:                      {vl_icms}\n')
+
+    print(f'Preço com tributos:                 {preco_com_tributos}')
+    print(f'Valor unitário do produto:          {vl_unit_com_tributos}\n')
+    print('------------------------------------------------------------------------------\n')
+    return f'{tarifa}|{valor}|{qtd}|{dv_pis_cofins}|{bc_pis_cofins}|{al_pis}|{vl_pis}|{al_cofins}|{vl_cofins}|{dv_icms}|{vl_icms}|{preco_com_tributos}|{vl_unit_com_tributos}'
+
+
+print(tributos(tarifa,qtd,al_pis, al_cofins, al_icms))
